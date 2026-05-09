@@ -2,125 +2,266 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hotel Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Hotel Booking</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(to right, #667eea, #764ba2);
-            color: #333;
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
         }
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 30px;
+        body{
+            background:#0f0f0f;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:40px 20px;
+            color:white;
         }
 
-        h1 {
-            text-align: center;
-            color: white;
+        .container{
+            width:100%;
+            max-width:1100px;
         }
 
-        .form-box {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        .card{
+            background:rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.1);
+            backdrop-filter:blur(18px);
+            border-radius:28px;
+            padding:45px;
+            box-shadow:0 10px 40px rgba(0,0,0,0.5);
         }
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            font-size: 14px;
+        .title{
+            text-align:center;
+            margin-bottom:40px;
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
+        .title h1{
+            font-size:48px;
+            font-weight:700;
+            color:white;
+            margin-bottom:10px;
         }
 
-        button:hover {
-            background: #5a67d8;
+        .title p{
+            color:#bdbdbd;
+            font-size:16px;
         }
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            transition: 0.2s;
+        form{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:25px;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
+        .full{
+            grid-column:1 / 3;
         }
 
-        .price {
-            color: #27ae60;
-            font-weight: bold;
+        .input-group{
+            display:flex;
+            flex-direction:column;
         }
 
-        .section-title {
-            color: white;
-            margin-bottom: 15px;
+        .input-group label{
+            margin-bottom:10px;
+            color:#dcdcdc;
+            font-size:14px;
+            font-weight:500;
         }
+
+        .input-group input,
+        .input-group select{
+            padding:16px;
+            border:none;
+            outline:none;
+            border-radius:14px;
+            background:#1b1b1b;
+            color:white;
+            font-size:15px;
+            transition:0.3s;
+            border:1px solid transparent;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus{
+            border:1px solid white;
+            transform:scale(1.01);
+        }
+
+        .btn{
+            grid-column:1 / 3;
+            padding:18px;
+            border:none;
+            border-radius:16px;
+            background:white;
+            color:black;
+            font-size:18px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+            margin-top:10px;
+        }
+
+        .btn:hover{
+            background:#d9d9d9;
+            transform:translateY(-2px);
+        }
+
+        .reservation-box{
+            margin-top:50px;
+        }
+
+        .reservation-box h2{
+            margin-bottom:20px;
+            font-size:30px;
+        }
+
+        .reservation-item{
+            background:#181818;
+            padding:20px;
+            border-radius:18px;
+            margin-bottom:15px;
+            border:1px solid rgba(255,255,255,0.08);
+        }
+
+        .reservation-item p{
+            margin-bottom:8px;
+            color:#d4d4d4;
+        }
+
+        @media(max-width:768px){
+
+            .title h1{
+                font-size:34px;
+            }
+
+            form{
+                grid-template-columns:1fr;
+            }
+
+            .full{
+                grid-column:auto;
+            }
+
+            .btn{
+                grid-column:auto;
+            }
+
+            .card{
+                padding:25px;
+            }
+        }
+
     </style>
 </head>
-
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>🏨 Hotel Booking System</h1>
+        <div class="card">
 
-    <div class="form-box">
-        <h2>✨ Book a Room</h2>
+            <div class="title">
+                <h1>Luxury Hotel Booking</h1>
+                <p>Book premium rooms with modern comfort</p>
+            </div>
 
-        <form method="POST">
-            {% csrf_token %}
+            <form method="POST">
 
-            <input type="text" name="guest_name" placeholder="👤 Guest Name" required>
+                {% csrf_token %}
 
-            <select name="room">
-                {% for room in rooms %}
-                    <option value="{{ room.id }}">
-                        Room {{ room.id }} - {{ room.price_per_night }} $
-                    </option>
-                {% endfor %}
-            </select>
+                <div class="input-group full">
+                    <label>Full Name</label>
+                    <input type="text" name="guest_name" placeholder="Enter your name">
+                </div>
 
-            <input type="date" name="check_in" required>
-            <input type="date" name="check_out" required>
+                <div class="input-group">
+                     <label>Guest Name</label>
+    <input type="text" name="guest_name" placeholder="Your full name">
+</div>
+                    <label>Room Type</label>
+                    <select name="room">
 
-            <button type="submit">🚀 Book Now</button>
-        </form>
-    </div>
+                        {% for room in rooms %}
+                            <option value="{{ room.id }}">
+                                {{ room.name }} - ${{ room.price }}
+                            </option>
+                        {% endfor %}
 
-    <h2 class="section-title">📋 Reservations</h2>
+                    </select>
+                </div>
 
-    {% for r in reservations %}
-    <div class="card">
-        <h3>{{ r.guest_name }}</h3>
-        <p>🛏 Room: {{ r.room }}</p>
-        <p>📅 {{ r.check_in }} → {{ r.check_out }}</p>
-        <p class="price">💰 {{ r.total_price }} $</p>
-    </div>
+                <div class="input-group">
+                    <label>Guests</label>
+                    <input type="number" name="guests" placeholder="Number of guests">
+                </div>
+
+                <div class="input-group">
+                    <label>Check In</label>
+                    <input type="date" name="check_in">
+                </div>
+
+                <div class="input-group">
+                    <label>Check Out</label>
+                    <input type="date" name="check_out">
+                </div>
+
+                <button class="btn" type="submit">
+                    Book Now
+                </button>
+
+            </form>
+
+            <div class="reservation-box">
+
+                <h2>Reservations</h2>
+
+                {% for reservation in reservations %}
+
+                    <div class="reservation-item">
+
+                        <p><strong>Name:</strong> {{ reservation.guest_name }}</p>
+
+                        <p><strong>Room:</strong> {{ reservation.room.name }}</p>
+
+                        <p><strong>Check In:</strong> {{ reservation.check_in }}</p>
+
+                        <p><strong>Check Out:</strong> {{ reservation.check_out }}</p>
+
+                    </div>
+
+<div class="reservations-list">
+
+    {% for reservation in reservations %}
+        <div class="reservation-card">
+            <h3>{{ reservation.guest_name }}</h3>
+
+            <p>
+                Room {{ reservation.room.room_number }}
+            </p>
+
+            <p>
+                ${{ reservation.room.price_per_night }}
+            </p>
+        </div>
+
+    {% empty %}
+        <p>No reservations yet</p>
     {% endfor %}
 
 </div>
+        </div>
+
+    </div>
 
 </body>
 </html>

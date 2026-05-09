@@ -70,3 +70,32 @@ def home(request):
         'reservations': reservations,
         'rooms': rooms
     })
+def home(request):
+    rooms = Room.objects.all()
+    reservations = Reservation.objects.all()
+
+    if request.method == "POST":
+        guest_name = request.POST.get("guest_name")
+        room_id = request.POST.get("room")
+        guests = request.POST.get("guests")
+        check_in = request.POST.get("check_in")
+        check_out = request.POST.get("check_out")
+
+        room = Room.objects.get(id=room_id)
+
+        Reservation.objects.create(
+            guest_name=guest_name,
+            room=room,
+            guests=guests,
+            check_in=check_in,
+            check_out=check_out,
+        )
+
+        return redirect('/')
+
+    context = {
+        'rooms': rooms,
+        'reservations': reservations
+    }
+
+    return render(request, 'home.html', context)
