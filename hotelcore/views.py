@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Hotel, Room, Reservation
 from .serializers import HotelSerializer, RoomSerializer, ReservationSerializer
 from .permissions import IsOwnerOrAdmin
-
+from datetime import datetime
 
 # 🟢 API Views
 class HotelViewSet(viewsets.ModelViewSet):
@@ -50,13 +50,21 @@ from .models import Room, Reservation
 
 def home(request):
 
-    if request.method == 'POST':
+        if request.method == 'POST':
 
-        guest_name = request.POST.get('guest_name')
-        room_id = request.POST.get('room')
-        guests = request.POST.get('guests')
-        check_in = request.POST.get('check_in')
-        check_out = request.POST.get('check_out')
+            guest_name = request.POST.get('guest_name')
+            room_id = request.POST.get('room')
+            guests = request.POST.get('guests')
+
+            check_in = datetime.strptime(
+            request.POST.get('check_in'),
+            '%Y-%m-%d'
+        ).date()
+
+        check_out = datetime.strptime(
+            request.POST.get('check_out'),
+            '%Y-%m-%d'
+        ).date()
 
         room = Room.objects.get(id=room_id)
 
@@ -70,10 +78,10 @@ def home(request):
 
         return redirect('/')
 
-    rooms = Room.objects.all()
-    reservations = Reservation.objects.all().order_by('-id')
+        rooms = Room.objects.all()
+        reservations = Reservation.objects.all().order_by('-id')
 
-    return render(request, 'home.html', {
+        return render(request, 'home.html', {
         'rooms': rooms,
         'reservations': reservations
     })
