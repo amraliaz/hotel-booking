@@ -19,9 +19,6 @@
         body{
             background:#0f0f0f;
             min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
             padding:40px 20px;
             color:white;
         }
@@ -29,14 +26,13 @@
         .container{
             width:100%;
             max-width:1100px;
+            margin:auto;
         }
 
         .card{
-            background:rgba(255,255,255,0.06);
-            border:1px solid rgba(255,255,255,0.1);
-            backdrop-filter:blur(18px);
-            border-radius:28px;
-            padding:45px;
+            background:#171717;
+            border-radius:30px;
+            padding:50px;
             box-shadow:0 10px 40px rgba(0,0,0,0.5);
         }
 
@@ -48,13 +44,11 @@
         .title h1{
             font-size:48px;
             font-weight:700;
-            color:white;
             margin-bottom:10px;
         }
 
         .title p{
-            color:#bdbdbd;
-            font-size:16px;
+            color:#aaaaaa;
         }
 
         form{
@@ -64,7 +58,7 @@
         }
 
         .full{
-            grid-column:1 / 3;
+            grid-column:1/3;
         }
 
         .input-group{
@@ -74,32 +68,29 @@
 
         .input-group label{
             margin-bottom:10px;
-            color:#dcdcdc;
             font-size:14px;
-            font-weight:500;
+            color:#d5d5d5;
         }
 
         .input-group input,
         .input-group select{
             padding:16px;
             border:none;
-            outline:none;
             border-radius:14px;
-            background:#1b1b1b;
+            background:#0f0f0f;
             color:white;
             font-size:15px;
-            transition:0.3s;
-            border:1px solid transparent;
+            border:1px solid #2c2c2c;
+            outline:none;
         }
 
         .input-group input:focus,
         .input-group select:focus{
             border:1px solid white;
-            transform:scale(1.01);
         }
 
         .btn{
-            grid-column:1 / 3;
+            grid-column:1/3;
             padding:18px;
             border:none;
             border-radius:16px;
@@ -109,41 +100,44 @@
             font-weight:600;
             cursor:pointer;
             transition:0.3s;
-            margin-top:10px;
         }
 
         .btn:hover{
-            background:#d9d9d9;
-            transform:translateY(-2px);
+            opacity:0.9;
         }
 
         .reservation-box{
-            margin-top:50px;
+            margin-top:60px;
         }
 
         .reservation-box h2{
-            margin-bottom:20px;
-            font-size:30px;
+            margin-bottom:25px;
+            font-size:32px;
         }
 
-        .reservation-item{
-            background:#181818;
-            padding:20px;
+        .reservation-card{
+            background:#101010;
+            border:1px solid #2a2a2a;
+            padding:25px;
             border-radius:18px;
-            margin-bottom:15px;
-            border:1px solid rgba(255,255,255,0.08);
+            margin-bottom:18px;
         }
 
-        .reservation-item p{
-            margin-bottom:8px;
-            color:#d4d4d4;
+        .reservation-card h3{
+            margin-bottom:10px;
+            font-size:22px;
+        }
+
+        .reservation-card p{
+            color:#cfcfcf;
+            margin-bottom:6px;
+        }
+
+        .empty{
+            color:#888;
         }
 
         @media(max-width:768px){
-
-            .title h1{
-                font-size:34px;
-            }
 
             form{
                 grid-template-columns:1fr;
@@ -160,108 +154,140 @@
             .card{
                 padding:25px;
             }
+
+            .title h1{
+                font-size:34px;
+            }
+
         }
 
     </style>
+
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <div class="card">
+    <div class="card">
 
-            <div class="title">
-                <h1>Luxury Hotel Booking</h1>
-                <p>Book premium rooms with modern comfort</p>
-            </div>
-
-            <form method="POST">
-
-                {% csrf_token %}
-
-                <div class="input-group full">
-                    <label>Full Name</label>
-                    <input type="text" name="guest_name" placeholder="Enter your name">
-                </div>
-
-                <div class="input-group">
-                     <label>Guest Name</label>
-    <input type="text" name="guest_name" placeholder="Your full name">
-</div>
-                    <label>Room Type</label>
-                    <select name="room">
-
-                        {% for room in rooms %}
-                            <option value="{{ room.id }}">
-                                {{ room.name }} - ${{ room.price }}
-                            </option>
-                        {% endfor %}
-
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Guests</label>
-                    <input type="number" name="guests" placeholder="Number of guests">
-                </div>
-
-                <div class="input-group">
-                    <label>Check In</label>
-                    <input type="date" name="check_in">
-                </div>
-
-                <div class="input-group">
-                    <label>Check Out</label>
-                    <input type="date" name="check_out">
-                </div>
-
-                <button class="btn" type="submit">
-                    Book Now
-                </button>
-
-            </form>
-
-            <div class="reservation-box">
-
-                <h2>Reservations</h2>
-
-                {% for reservation in reservations %}
-
-                    <div class="reservation-item">
-
-                        <p><strong>Name:</strong> {{ reservation.guest_name }}</p>
-
-                        <p><strong>Room:</strong> {{ reservation.room.name }}</p>
-
-                        <p><strong>Check In:</strong> {{ reservation.check_in }}</p>
-
-                        <p><strong>Check Out:</strong> {{ reservation.check_out }}</p>
-
-                    </div>
-
-<div class="reservations-list">
-
-    {% for reservation in reservations %}
-        <div class="reservation-card">
-            <h3>{{ reservation.guest_name }}</h3>
-
-            <p>
-                Room {{ reservation.room.room_number }}
-            </p>
-
-            <p>
-                ${{ reservation.room.price_per_night }}
-            </p>
+        <div class="title">
+            <h1>Luxury Hotel Booking</h1>
+            <p>Modern hotel reservation experience</p>
         </div>
 
-    {% empty %}
-        <p>No reservations yet</p>
-    {% endfor %}
+        <form method="POST">
 
-</div>
+            {% csrf_token %}
+
+            <div class="input-group full">
+                <label>Guest Name</label>
+                <input type="text"
+                       name="guest_name"
+                       placeholder="Enter your full name"
+                       required>
+            </div>
+
+            <div class="input-group">
+                <label>Room Type</label>
+
+                <select name="room" required>
+
+                    {% for room in rooms %}
+
+                        <option value="{{ room.id }}">
+
+                            Room {{ room.room_number }}
+                            -
+                            ${{ room.price_per_night }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Guests</label>
+
+                <input type="number"
+                       name="guests"
+                       placeholder="Number of guests"
+                       required>
+            </div>
+
+            <div class="input-group">
+                <label>Check In</label>
+
+                <input type="date"
+                       name="check_in"
+                       required>
+            </div>
+
+            <div class="input-group">
+                <label>Check Out</label>
+
+                <input type="date"
+                       name="check_out"
+                       required>
+            </div>
+
+            <button class="btn" type="submit">
+                Book Now
+            </button>
+
+        </form>
+
+        <div class="reservation-box">
+
+            <h2>Reservations</h2>
+
+            {% for reservation in reservations %}
+
+                <div class="reservation-card">
+
+                    <h3>{{ reservation.guest_name }}</h3>
+
+                    <p>
+                        Room:
+                        {{ reservation.room.room_number }}
+                    </p>
+
+                    <p>
+                        Price:
+                        ${{ reservation.room.price_per_night }}
+                    </p>
+
+                    <p>
+                        Guests:
+                        {{ reservation.guests }}
+                    </p>
+
+                    <p>
+                        Check In:
+                        {{ reservation.check_in }}
+                    </p>
+
+                    <p>
+                        Check Out:
+                        {{ reservation.check_out }}
+                    </p>
+
+                </div>
+
+            {% empty %}
+
+                <p class="empty">
+                    No reservations yet.
+                </p>
+
+            {% endfor %}
+
         </div>
 
     </div>
+
+</div>
 
 </body>
 </html>
